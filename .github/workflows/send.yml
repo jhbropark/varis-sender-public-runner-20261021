@@ -1,0 +1,58 @@
+name: "Approved institution follow-up sender"
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Do not send; print targets only"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: approved-institution-followup
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Sync contacts
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURITY: ${{ secrets.SMTP_SECURITY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+        run: python sender.py --config config_education_followup_20261021.yaml sync
+      - name: Send
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURITY: ${{ secrets.SMTP_SECURITY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python sender.py --config config_education_followup_20261021.yaml run --dry-run
+          else
+            python sender.py --config config_education_followup_20261021.yaml run
+          fi
+      - name: Commit state
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          git config user.name "varis-sender-bot"
+          git config user.email "actions@github.com"
+          git add state_education_followup_20261021.json
+          git commit -m "chore: update follow-up state [skip ci]" || echo "No state changes"
+          git push
