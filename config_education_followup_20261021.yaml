@@ -1,0 +1,51 @@
+# 2026-10-21 클릭 기관 후속 안내
+from_email: "varis@varis.kr"
+from_name: "VARIS 박준혁"
+reply_to: "varis@varis.kr"
+smtp_host: "smtp.daum.net"
+smtp_port: 465
+smtp_security: "ssl"
+smtp_user: "varis2017"
+smtp_password: ""
+daily_cap: 6
+min_gap_seconds: 45
+contacts_file: "contacts_education_followup_20261021.csv"
+suppress_file: "suppress.csv"
+state_file: "state_education_followup_20261021.json"
+tracking:
+  enabled: true
+  base_url: "https://mail.varis.kr"
+  campaign_prefix: "education-followup-20261021"
+landing: "https://insight.varis.kr/industry/3d-mediaart-kdt-courses-2026-december/?utm_source=institutional&utm_medium=email&utm_campaign=education-followup-20261021&utm_content=clicked-followup"
+booking_link: "https://insight.varis.kr/consult/"
+sequence:
+  gaps_days: [0]
+  steps:
+    - subject: "Re: [학생 전달 요청] 3D·미디어아트 교육과정 안내"
+      body: |
+        안녕하세요. VARIS 박준혁입니다.
+
+        지난 10월 13일 보내드린 3D·미디어아트 교육과정 안내를 확인해 주셔서 후속으로 짧게 연락드립니다.
+
+        귀 기관의 학생·졸업생 중 3D, VFX, 모션그래픽, 미디어아트 분야의 직무전환 또는 취업을 준비하는 분께 아래 자료를 선택적으로 전달할 수 있을지 확인 부탁드립니다.
+
+        과정 비교 안내:
+        https://insight.varis.kr/industry/3d-mediaart-kdt-courses-2026-december/?utm_source=institutional&utm_medium=email&utm_campaign=education-followup-20261021&utm_content=clicked-followup
+
+        학생 공유용 무료 입문 가이드:
+        https://insight.varis.kr/guide/3d-mediaart-free-pdf/?utm_source=institutional&utm_medium=email&utm_campaign=education-followup-20261021&utm_content=free-guide
+
+        기관 게시판·뉴스레터·상담 안내 중 가능한 공식 경로가 있다면 안내 방법만 알려주셔도 됩니다. 학생 개인 연락처를 요청하거나 별도 전달을 요구하지 않습니다.
+
+        담당 채널이 아니라면 적절한 부서나 게시판을 알려주시는 것만으로도 감사하겠습니다. 향후 안내를 원하지 않으시면 ‘수신거부’라고 회신해 주세요.
+
+        감사합니다.
+
+        박준혁
+        VARIS 원격학원
+        varis@varis.kr
+footer: |
+  ---
+  본 메일은 기관 공식 공개 연락처로 1회 후속 안내 목적으로 발송되었습니다.
+  수신을 원치 않으시면 이 메일에 ‘수신거부’로 회신해 주세요.
+  VARIS · varis@varis.kr · https://varis.kr
