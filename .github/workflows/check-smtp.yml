@@ -1,0 +1,34 @@
+name: Verify SMTP auth without sending
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: SMTP AUTH check only
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURITY: ${{ secrets.SMTP_SECURITY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import os, smtplib, ssl
+          host = os.environ["SMTP_HOST"]
+          port = int(os.environ["SMTP_PORT"])
+          user = os.environ["SMTP_USER"]
+          password = os.environ["SMTP_PASSWORD"]
+          smtp = smtplib.SMTP_SSL(host, port, context=ssl.create_default_context(), timeout=30)
+          smtp.login(user, password)
+          smtp.quit()
+          print("SMTP_AUTH_OK")
+          PY
